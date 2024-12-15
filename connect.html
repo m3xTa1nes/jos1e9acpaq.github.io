@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Connect TON Wallets</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: #fff; 
+      border-radius: 8px; 
+      padding: 20px; 
+      max-width: 600px; 
+      margin: auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    button {
+      margin: 8px 0;
+      padding: 10px 15px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #eee;
+    }
+    .status {
+      margin-top: 20px;
+      padding: 10px;
+      background: #fafafa;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      word-wrap: break-word;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Подключение TON-кошельков</h1>
+  
+  <!-- Блок кнопок -->
+  <div>
+    <button id="connect-all">Показать диалог выбора кошелька</button>
+    <button id="connect-tonkeeper">Tonkeeper</button>
+    <button id="connect-tonhub">Tonhub</button>
+    <button id="connect-telegram">Telegram Wallet</button>
+    <button id="connect-openmask">OpenMask</button>
+  </div>
+
+  <!-- Блок статуса подключения -->
+  <div class="status" id="status">
+    Статус: не подключено
+  </div>
+</div>
+
+<script>
+/**
+ * Пример использования @tonconnect/ui
+ * Документация: https://github.com/ton-connect/ui
+ *
+ * Чтобы соединение работало, нужен tonconnect-manifest.json на вашем хостинге 
+ * в корне или в указанном месте, содержащий:
+ * {
+ *   "manifestUrl": "https://<YOUR_DOMAIN>/tonconnect-manifest.json",
+ *   "name": "My TON DApp",
+ *   "description": "Example DApp",
+ *   "iconUrl": "https://<YOUR_DOMAIN>/icon.png"
+ * }
+ */
+
+// Инициализация TonConnect UI (пример)
+const connector = new TonConnectUI.TonConnectUI({
+  // Укажите ваш manifestUrl с реального HTTPS-домена
+  manifestUrl: 'https://example.com/tonconnect-manifest.json'
+});
+
+// Получим ссылку на div со статусом
+const statusDiv = document.getElementById('status');
+
+// Функция для обновления статуса на экране
+function updateStatus() {
+  const wallet = connector.wallet;
+  if (!wallet) {
+    statusDiv.textContent = 'Статус: не подключено';
+  } else {
+    statusDiv.textContent = `Подключено: ${wallet.account.address}`;
+    // Можно выводить баланс, имя кошелька и пр.
+  }
+}
+
+// Подпишемся на событие изменения статуса (коннекта)
+connector.onStatusChange(() => {
+  updateStatus();
+});
+
+// Кнопка "показать диалог выбора кошелька"
+document.getElementById('connect-all').addEventListener('click', () => {
+  // Метод "connectWallet" без параметров откроет UI-диалог со списком всех доступных кошельков
+  connector.connectWallet();
+});
+
+// Кнопка "Tonkeeper"
+document.getElementById('connect-tonkeeper').addEventListener('click', () => {
+  // Параметром передаётся JS-объект, описывающий конкретный wallet
+  connector.connectWallet({
+    jsBridgeKey: 'tonkeeper'
+  });
+});
+
+// Кнопка "Tonhub"
+document.getElementById('connect-tonhub').addEventListener('click', () => {
+  connector.connectWallet({
+    jsBridgeKey: 'tonhub'
+  });
+});
+
+// Кнопка "Telegram Wallet"
+document.getElementById('connect-telegram').addEventListener('click', () => {
+  // Telegram Wallet пока не всегда поддерживает TonConnect 2.0 в виде jsBridgeKey.
+  // Некоторые варианты реализации идут как "wallet.tg".
+  // В будущем (или уже, зависит от текущего статуса) можно попробовать:
+  connector.connectWallet({
+    jsBridgeKey: 'telegram'
+  });
+  // Если не заработает, понадобится direct Deeplink: tg://wallet/... (или web.telegram.org/k/#wallet)
+});
+
+// Кнопка "OpenMask"
+document.getElementById('connect-openmask').addEventListener('click', () => {
+  // OpenMask (Ton extension для Chrome) поддерживает TonConnect, ключ обычно 'openmask' или 'tonwa'.
+  connector.connectWallet({
+    jsBridgeKey: 'openmask'
+  });
+});
+
+// При первой загрузке страницы покажем текущий статус (если подключение ранее было установлено и сохранено)
+updateStatus();
+</script>
+</body>
+</html>
