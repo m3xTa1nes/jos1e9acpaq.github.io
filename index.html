@@ -73,6 +73,7 @@ function updateStatus() {
   if (!wallet) {
     statusDiv.textContent = 'Статус: не подключено';
   } else {
+    console.log(wallet)
     statusDiv.textContent = `Подключено: ${wallet.account.address}`;
     // Можно выводить баланс, имя кошелька и пр.
   }
