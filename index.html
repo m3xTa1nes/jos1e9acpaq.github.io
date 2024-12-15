@@ -47,10 +47,6 @@
   <!-- Блок кнопок -->
   <div>
     <button id="connect-all">Показать диалог выбора кошелька</button>
-    <button id="connect-tonkeeper">Tonkeeper</button>
-    <button id="connect-tonhub">Tonhub</button>
-    <button id="connect-telegram">Telegram Wallet</button>
-    <button id="connect-openmask">OpenMask</button>
   </div>
 
   <!-- Блок статуса подключения -->
@@ -91,40 +87,6 @@ connector.onStatusChange(() => {
 document.getElementById('connect-all').addEventListener('click', () => {
   // Метод "connectWallet" без параметров откроет UI-диалог со списком всех доступных кошельков
   connector.connectWallet();
-});
-
-// Кнопка "Tonkeeper"
-document.getElementById('connect-tonkeeper').addEventListener('click', () => {
-  // Параметром передаётся JS-объект, описывающий конкретный wallet
-  connector.connectWallet({
-    jsBridgeKey: 'tonkeeper'
-  });
-});
-
-// Кнопка "Tonhub"
-document.getElementById('connect-tonhub').addEventListener('click', () => {
-  connector.connectWallet({
-    jsBridgeKey: 'tonhub'
-  });
-});
-
-// Кнопка "Telegram Wallet"
-document.getElementById('connect-telegram').addEventListener('click', () => {
-  // Telegram Wallet пока не всегда поддерживает TonConnect 2.0 в виде jsBridgeKey.
-  // Некоторые варианты реализации идут как "wallet.tg".
-  // В будущем (или уже, зависит от текущего статуса) можно попробовать:
-  connector.connectWallet({
-    jsBridgeKey: 'telegram'
-  });
-  // Если не заработает, понадобится direct Deeplink: tg://wallet/... (или web.telegram.org/k/#wallet)
-});
-
-// Кнопка "OpenMask"
-document.getElementById('connect-openmask').addEventListener('click', () => {
-  // OpenMask (Ton extension для Chrome) поддерживает TonConnect, ключ обычно 'openmask' или 'tonwa'.
-  connector.connectWallet({
-    jsBridgeKey: 'openmask'
-  });
 });
 
 // При первой загрузке страницы покажем текущий статус (если подключение ранее было установлено и сохранено)
