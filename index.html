@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Connect TON Wallets</title>
-  <script src="https://cdn.jsdelivr.net/npm/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
   <style>
     body {
       font-family: sans-serif;
@@ -60,10 +60,12 @@
 
 <script>
 // Инициализация TonConnect UI (пример)
-const connector = new TonConnectUI.TonConnectUI({
+const connector = new TON_CONNECT_UI.TonConnectUI({
   // Укажите ваш manifestUrl с реального HTTPS-домена
   manifestUrl: 'https://m3xta1nes.github.io/tonconnect-manifest.json'
 });
+
+console.log(connector)
 
 // Получим ссылку на div со статусом
 const statusDiv = document.getElementById('status');
