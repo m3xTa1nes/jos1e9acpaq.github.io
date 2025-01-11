@@ -19,11 +19,7 @@
 
             // Обработка клика по кнопке
             button.addEventListener('click', () => {
-                window.Telegram.WebApp.shareMessage('Test').then((result) => {
-                    console.log("Сообщение успешно отправлено:", result);
-                }).catch((error) => {
-                    console.error("Ошибка при отправке сообщения:", error);
-                });
+                window.Telegram.WebApp.shareMessage('Test', (res) => console.log(res))
             });
         } else {
             console.error('Telegram WebApp is not available.');
