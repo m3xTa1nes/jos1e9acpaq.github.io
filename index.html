@@ -11,19 +11,7 @@
     <button id="sendMessageButton">Send Message</button>
 
     <script>
-        console.log(window.location.href);
-        // Проверяем, доступен ли Telegram WebApp
-        if (window.Telegram && Telegram.WebApp) {
-            const button = document.getElementById('sendMessageButton');
-
-
-            // Обработка клика по кнопке
-            button.addEventListener('click', () => {
-                window.Telegram.WebApp.shareMessage('Test', (res) => console.log(res))
-            });
-        } else {
-            console.error('Telegram WebApp is not available.');
-        }
+        console.log(window.Telegram);
     </script>
 </body>
 </html>
