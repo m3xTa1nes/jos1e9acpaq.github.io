@@ -3,50 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram WebApp Object</title>
+    <title>Telegram WebApp Button</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-    <h1>Telegram.WebApp Object Explorer</h1>
-    <pre id="webapp-data"></pre>
-    <pre id="webapp-url"></pre>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <h1>Telegram WebApp</h1>
+    <button id="sendMessageButton">Send Message</button>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            if (window.Telegram && Telegram.WebApp) {
-                // Получаем объект Telegram.WebApp
-                const webAppData = Telegram;
+        // Проверяем, доступен ли Telegram WebApp
+        if (window.Telegram && Telegram.WebApp) {
+            const button = document.getElementById('sendMessageButton');
 
-                // Функция для получения всех свойств и функций объекта
-                function exploreObject(obj, prefix = '') {
-                    const entries = [];
-                    for (const key in obj) {
-                        try {
-                            const type = typeof obj[key];
-                            const value = type === 'function' ? '[Function]' : obj[key];
-                            entries.push(`${prefix}${key}: ${type === 'object' ? '{...}' : value}`);
-                        } catch (e) {
-                            entries.push(`${prefix}${key}: [Inaccessible]`);
-                        }
-
-                        // Рекурсивный вызов для вложенных объектов
-                        if (typeof obj[key] === 'object' && obj[key] !== null) {
-                            entries.push(...exploreObject(obj[key], `${prefix}${key}.`));
-                        }
-                    }
-                    return entries;
+            // Обработка клика по кнопке
+            button.addEventListener('click', () => {
+                try {
+                    // Вызываем WebApp.sendMessage
+                    Telegram.WebApp.sendMessage('', true, true);
+                    console.log('Message sent successfully.');
+                } catch (error) {
+                    console.error('Error sending message:', error);
                 }
-
-                // Генерация данных для отображения
-                const webAppEntries = exploreObject(webAppData);
-                const output = webAppEntries.join('\n');
-
-                // Вывод данных
-                document.getElementById('webapp-data').textContent = output;
-                document.getElementById('webapp-url').textContent = JSON.stringify(window.Telegram.WebApp.LocationManager.getLocation());
-            } else {
-                document.getElementById('webapp-data').textContent = 'Telegram.WebApp is not available.';
-            }
-        });
+            });
+        } else {
+            console.error('Telegram WebApp is not available.');
+        }
     </script>
 </body>
 </html>
