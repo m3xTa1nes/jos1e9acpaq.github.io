@@ -12,7 +12,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             if (window.Telegram && Telegram.WebApp) {
                 // Получаем объект Telegram.WebApp
-                const webAppData = Telegram.WebApp;
+                const webAppData = Telegram;
 
                 // Преобразуем объект в JSON строку с форматированием
                 const webAppJson = JSON.stringify(webAppData, null, 2);
