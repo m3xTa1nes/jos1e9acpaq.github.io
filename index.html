@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -5,7 +6,7 @@
     <title>Telegram WebApp Object</title>
 </head>
 <body>
-    <h1>Telegram.WebApp Object</h1>
+    <h1>Telegram.WebApp Object Explorer</h1>
     <pre id="webapp-data"></pre>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
@@ -14,11 +15,32 @@
                 // Получаем объект Telegram.WebApp
                 const webAppData = Telegram;
 
-                // Преобразуем объект в JSON строку с форматированием
-                const webAppJson = JSON.stringify(webAppData, null, 2);
+                // Функция для получения всех свойств и функций объекта
+                function exploreObject(obj, prefix = '') {
+                    const entries = [];
+                    for (const key in obj) {
+                        try {
+                            const type = typeof obj[key];
+                            const value = type === 'function' ? '[Function]' : obj[key];
+                            entries.push(`${prefix}${key}: ${type === 'object' ? '{...}' : value}`);
+                        } catch (e) {
+                            entries.push(`${prefix}${key}: [Inaccessible]`);
+                        }
 
-                // Выводим JSON в элемент <pre>
-                document.getElementById('webapp-data').textContent = webAppJson;
+                        // Рекурсивный вызов для вложенных объектов
+                        if (typeof obj[key] === 'object' && obj[key] !== null) {
+                            entries.push(...exploreObject(obj[key], `${prefix}${key}.`));
+                        }
+                    }
+                    return entries;
+                }
+
+                // Генерация данных для отображения
+                const webAppEntries = exploreObject(webAppData);
+                const output = webAppEntries.join('\n');
+
+                // Вывод данных
+                document.getElementById('webapp-data').textContent = output;
             } else {
                 document.getElementById('webapp-data').textContent = 'Telegram.WebApp is not available.';
             }
