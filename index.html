@@ -11,18 +11,49 @@
     <button id="sendMessageButton">Send Message</button>
 
     <script>
+        console.log(window.location.href);
         // Проверяем, доступен ли Telegram WebApp
         if (window.Telegram && Telegram.WebApp) {
             const button = document.getElementById('sendMessageButton');
 
+            // Определяем функцию apiRequest
+            function apiRequest(method, data, callback) {
+                fetch('/api/' + method, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (callback) {
+                        callback(result);
+                    }
+                })
+                .catch(error => {
+                    console.error('API request failed:', error);
+                });
+            }
+
             // Обработка клика по кнопке
             button.addEventListener('click', () => {
                 try {
-                    // Вызываем WebApp.sendMessage
-                    Telegram.WebApp.shareMessage('', true, true);
-                    console.log('Message sent successfully.');
+                    const data = {
+                        msg_id: '', // ID сообщения, можно передать пустую строку
+                        with_webview: true // Используем WebView
+                    };
+
+                    // Вызываем apiRequest
+                    apiRequest('sendMessage', data, (response) => {
+                        if (response.ok) {
+                            console.log('Message sent successfully:', response);
+                        } else {
+                            console.error('Error sending message:', response.error);
+                        }
+                    });
                 } catch (error) {
-                    console.error('Error sending message:', error);
+                    console.error('Error in API request:', error);
                 }
             });
         } else {
