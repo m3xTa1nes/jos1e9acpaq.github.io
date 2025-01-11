@@ -1,0 +1,28 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram WebApp Object</title>
+</head>
+<body>
+    <h1>Telegram.WebApp Object</h1>
+    <pre id="webapp-data"></pre>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (window.Telegram && Telegram.WebApp) {
+                // Получаем объект Telegram.WebApp
+                const webAppData = Telegram.WebApp;
+
+                // Преобразуем объект в JSON строку с форматированием
+                const webAppJson = JSON.stringify(webAppData, null, 2);
+
+                // Выводим JSON в элемент <pre>
+                document.getElementById('webapp-data').textContent = webAppJson;
+            } else {
+                document.getElementById('webapp-data').textContent = 'Telegram.WebApp is not available.';
+            }
+        });
+    </script>
+</body>
+</html>
