@@ -42,7 +42,7 @@
 
                 // Вывод данных
                 document.getElementById('webapp-data').textContent = output;
-                document.getElementById('webapp-url').textContent = window.Telegram.WebApp.LocationManager.getLocation();
+                document.getElementById('webapp-url').textContent = JSON.stringify(window.Telegram.WebApp.LocationManager.getLocation());
             } else {
                 document.getElementById('webapp-data').textContent = 'Telegram.WebApp is not available.';
             }
