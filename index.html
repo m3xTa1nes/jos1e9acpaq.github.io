@@ -21,7 +21,7 @@
         {
             const [username, appname] = initData.startParam.split("_");
 
-            shareURL(`https://t.me/${username}/${appname}`, 'Test text!');
+            shareURL(`https://t.me/${username}/${appname}?startapp=${initData.startParam}`, 'Test text!');
         })
 
     </script>
