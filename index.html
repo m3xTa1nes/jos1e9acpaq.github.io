@@ -11,12 +11,19 @@
     <h1>Telegram WebApp</h1>
     <button id="button" href="tg://msg_url?url=https://t.me/Kz52HbyCCQowkSzBot/app" onclick="share">Share</a>
     <script>
-        console.log(window.Telegram);
-        console.log(window.telegramApps)
-       
-        const share = () => {
-            window.Telegram.WebView.postEvent('web_app_open_link', false, { url: "https://t.me/share/url?url=https://t.me/Kz52HbyCCQowkSzBot/app" });
+
+        const { retrieveLaunchParams, shareURL } =  window.telegramApps.sdk
+        const { initDataRaw, initData } = retrieveLaunchParams();
+
+        console.log(initData)
+
+        document.getElementById("button").addEventListener("click", () => 
+        {
+            const [username, appname] = initData.start_param.split("_");
+
+            shareURL(`https://t.me/${username}/${appname}`, 'Test text!');
         }
+
     </script>
 </body>
 </html>
