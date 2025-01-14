@@ -12,10 +12,10 @@
     <button id="button">Share</button>
     <script>
 
-        const { retrieveLaunchParams, shareURL } =  window.telegramApps.sdk
+        const { init, retrieveLaunchParams, shareURL } =  window.telegramApps.sdk
         const { initDataRaw, initData } = retrieveLaunchParams();
 
-        console.log(initData)
+        init();
 
         document.getElementById("button").addEventListener("click", () => 
         {
