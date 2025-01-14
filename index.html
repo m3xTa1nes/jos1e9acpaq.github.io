@@ -9,7 +9,7 @@
 </head>
 <body>
     <h1>Telegram WebApp</h1>
-    <button id="button" href="tg://msg_url?url=https://t.me/Kz52HbyCCQowkSzBot/app" onclick="share">Share</a>
+    <button id="button">Share</button>
     <script>
 
         const { retrieveLaunchParams, shareURL } =  window.telegramApps.sdk
@@ -19,7 +19,7 @@
 
         document.getElementById("button").addEventListener("click", () => 
         {
-            const [username, appname] = initData.start_param.split("_");
+            const [username, appname] = initData.startParam.split("_");
 
             shareURL(`https://t.me/${username}/${appname}`, 'Test text!');
         })
